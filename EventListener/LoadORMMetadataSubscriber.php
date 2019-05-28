@@ -302,6 +302,9 @@ class LoadORMMetadataSubscriber implements EventSubscriber
         // if class is overridden and class is the interface itself, but was originally not defined as mapped
         // superclass ... (class was set to isMappedSuperclass = true by this listener)
         else if ($this->classIsOverridden($metadata->getName()) && !$wasMappedSuperclass) {
+            // to avoid :
+            //   Property "..." in "<finalClass>" was already declared, but it must be declared only once
+            $metadata->embeddedClasses = [] ;
 
             // ... set fields to declared / inherited to avoid MappingException "Duplicate definition of column" when
             // loading the metadata of sub classes (this only happens if this class originally was defined as entity but
@@ -310,6 +313,15 @@ class LoadORMMetadataSubscriber implements EventSubscriber
             // to make this work correctly, these fields will later be re-added in setFieldMappings() to the actual
             // class (but we will keep the declared / inherited flags this time)
             foreach ($metadata->fieldMappings as $name => $mapping) {
+
+                // fields are already declareds
+                if ($this->isEmbeddedProperty($name,$mapping)) {
+                    unset($metadata->fieldMappings[$mapping['fieldName']]);
+                    unset($metadata->columnNames[$mapping['fieldName']]);
+                    unset($metadata->fieldNames[$mapping['columnName']]);
+                    continue;
+                }
+
                 if (!isset($mapping['declared'])) { // only if not already set
                     if (!$metadata->getReflectionClass()->getProperty($name)->isPrivate()) {
                         $metadata->fieldMappings[$mapping['fieldName']]['declared'] = $metadata->getName();
@@ -588,5 +600,9 @@ class LoadORMMetadataSubscriber implements EventSubscriber
         throw new \InvalidArgumentException(
             sprintf('The class %s does not exists.', $key)
         );
+    }
+
+    public function isEmbeddedProperty($name,$mapping) {
+        return isset($mapping['declaredField']);
     }
 }
