@@ -1,5 +1,6 @@
 parameters:
     joschi127_doctrine_entity_override.event_subscriber.load_orm_metadata.class: Joschi127\DoctrineEntityOverrideBundle\EventListener\LoadORMMetadataSubscriber
+    joschi127_doctrine_entity_override.event_subscriber.load_embedded_orm_metadata.class: Joschi127\DoctrineEntityOverrideBundle\EventListener\LoadORMEmbeddedMetadataSubscriber
 
 services:
 
@@ -9,4 +10,12 @@ services:
             - "@service_container"
             - "%joschi127_doctrine_entity_override.config.overridden_entities%"
         tags:
-            - { name: doctrine.event_subscriber }
+            - { name: doctrine.event_subscriber, priority: 0 }
+
+    joschi127_doctrine_embedded_entity_override.event_subscriber.load_embedded_orm_metadata:
+        class: "%joschi127_doctrine_entity_override.event_subscriber.load_embedded_orm_metadata.class%"
+        arguments:
+            - "@service_container"
+            - "%joschi127_doctrine_entity_override.config.overridden_entities%"
+        tags:
+            - { name: doctrine.event_subscriber, priority: 2 }
