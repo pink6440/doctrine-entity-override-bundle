@@ -33,3 +33,24 @@ Hints
   original mapping configuration and only use your customized mapping.
 * Have a look at the [Tests/Functional/src folder](https://github.com/joschi127/doctrine-entity-override-bundle/tree/master/Tests/Functional/src)
   for some example code.
+
+Embedded
+-----
+* rule sould be to initiate the embedded property in the constructor, 
+  but, as we don't know that the embeddable class will be overriden, 
+  it will be responsibility for the developper to use a kind of factory
+  to instantiate the default object property.
+* that is not a problem when the entity is hydrated from database because
+  at this time, Doctrine will take care of it correctly.  
+```
+ /**
+      * @var Adresse
+      * @ORM\Embedded(class="adresse")
+      */
+     protected $adresse;
+ 
+     public function __construct()
+     {
+         $this->adresse = new Adresse();
+     }
+```

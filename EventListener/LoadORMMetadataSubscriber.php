@@ -314,8 +314,8 @@ class LoadORMMetadataSubscriber implements EventSubscriber
             // class (but we will keep the declared / inherited flags this time)
             foreach ($metadata->fieldMappings as $name => $mapping) {
 
-                // fields are already declareds
-                if ($this->isEmbeddedProperty($name,$mapping)) {
+                // fields are already declared
+                if ($this->isEmbeddedProperty($name, $mapping)) {
                     unset($metadata->fieldMappings[$mapping['fieldName']]);
                     unset($metadata->columnNames[$mapping['fieldName']]);
                     unset($metadata->fieldNames[$mapping['columnName']]);
@@ -602,7 +602,7 @@ class LoadORMMetadataSubscriber implements EventSubscriber
         );
     }
 
-    public function isEmbeddedProperty($name,$mapping) {
+    public function isEmbeddedProperty($name, $mapping) {
         return isset($mapping['declaredField']);
     }
 }

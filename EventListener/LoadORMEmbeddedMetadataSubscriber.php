@@ -1,15 +1,11 @@
 <?php
-/**
- * This file is part of the YAP package
+/*
+ * This file is based on the code of the Sylius ResourceBundle.
  *
- * (c) Sébastien COTON <sebastien.coton@gmail.com>
- * (c) Ouat's UP
- * (c) SAS Chaucodel
+ * (c) Paweł Jędrzejewski
  *
- * L'usage et la diffusion de ce fichier ainsi que de l'ensemble des fichiers
- * liés au présent projet doit faire l'objet d'un accord express
- * de l'ensemble des parties citées dans le (c) ci-dessus
- *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Joschi127\DoctrineEntityOverrideBundle\EventListener;
@@ -96,7 +92,7 @@ class LoadORMEmbeddedMetadataSubscriber implements EventSubscriber {
 
             // Put the new mappings
 
-            $metadata->inlineEmbeddable($propertyName,$targetMetadata);
+            $metadata->inlineEmbeddable($propertyName, $targetMetadata);
         }
 
 

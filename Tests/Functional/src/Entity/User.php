@@ -2,6 +2,7 @@
 
 namespace Joschi127\DoctrineEntityOverrideBundle\Tests\Functional\src\Entity;
 
+use App\Entity\Adresse2;
 use FOS\UserBundle\Model\User as BaseUser;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -66,11 +67,20 @@ class User extends BaseUser
      */
     protected $userActivity;
 
+    /**
+     * @var Adresse
+     * @ORM\Embedded(class="adresse")
+     */
+    protected $adresse;
+
     public function __construct()
     {
         parent::__construct();
 
         $this->groups = new ArrayCollection();
+
+
+
     }
 
     /**
@@ -122,4 +132,23 @@ class User extends BaseUser
 
         $this->userActivity = $userActivity;
     }
+
+    /**
+     * @return Adresse
+     */
+    public function getAdresse()
+    {
+        return $this->adresse;
+    }
+
+    /**
+     * @param Adresse $adresse
+     */
+    public function setAdresse(Adresse $adresse)
+    {
+        $this->adresse = $adresse;
+        return $this;
+    }
+
+
 }
