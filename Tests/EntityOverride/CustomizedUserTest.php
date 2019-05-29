@@ -5,6 +5,7 @@ namespace Joschi127\DoctrineEntityOverrideBundle\Tests\EntityOverride;
 use Doctrine\ORM\EntityRepository;
 use FOS\UserBundle\Doctrine\UserManager;
 use Joschi127\DoctrineEntityOverrideBundle\Tests\Functional\src\Entity\CustomizedUser;
+use Joschi127\DoctrineEntityOverrideBundle\Tests\Functional\src\Entity\EmbeddedAddressV2;
 use Joschi127\DoctrineEntityOverrideBundle\Tests\Functional\src\Entity\Group;
 use Joschi127\DoctrineEntityOverrideBundle\Tests\Functional\src\Entity\UserActivity;
 use Joschi127\DoctrineEntityOverrideBundle\Tests\TestBase;
@@ -183,12 +184,19 @@ class CustomizedUserTest extends TestBase
             'Joschi127\DoctrineEntityOverrideBundle\Tests\Functional\src\Entity\CustomizedUser',
             $user
         );
+
         $cleanUser = $this->getNewTestUserObject();
         $this->assertEquals($this->getTestUsername(), $user->getUsername());
         $this->assertEquals($cleanUser->getFirstName(), $user->getFirstName());
         $this->assertEquals($cleanUser->getLastName(), $user->getLastName());
         $this->assertEquals($cleanUser->getEmail(), $user->getEmail());
         $this->assertEquals($cleanUser->getPhoneNumber(), $user->getPhoneNumber());
+
+
+        $this->assertInstanceOf(
+            EmbeddedAddressV2::class,
+            $user->getAdresse()
+        );
     }
 
     protected function createUser()
